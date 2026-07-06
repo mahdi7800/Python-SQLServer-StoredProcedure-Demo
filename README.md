@@ -208,7 +208,7 @@ The SQL Server Stored Procedure used in this project is maintained in a separate
 
 **Stored Procedure Repository:**
 
-[Stored-Procedure-Payment](https://github.com/mahdi7800/Stored-Procedure-Payment?utm_source=chatgpt.com)
+[Stored-Procedure-Payment](https://github.com/mahdi7800/Stored-Procedure-Payment)
 
 This Python project calls the Stored Procedure from the repository above to demonstrate how to execute SQL Server Stored Procedures using **pyodbc**.
 
@@ -220,7 +220,7 @@ Stored Procedure مورد استفاده در این پروژه در یک مخز
 
 **لینک مخزن Stored Procedure:**
 
-[Stored-Procedure-Payment](https://github.com/mahdi7800/Stored-Procedure-Payment?utm_source=chatgpt.com)
+[Stored-Procedure-Payment](https://github.com/mahdi7800/Stored-Procedure-Payment)
 
 این پروژه تنها بخش **Python** را پیاده‌سازی می‌کند و برای اجرای صحیح آن، لازم است Stored Procedure موجود در مخزن بالا را در SQL Server ایجاد کنید.
 

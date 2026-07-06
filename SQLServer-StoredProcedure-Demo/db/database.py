@@ -18,6 +18,9 @@ class Database :
 
     def fach_one (self):
         return self.cursor.fetchone()
+        
+     def fech_all (self):
+        return self.cursor.fetchall()
     
     def commit(self):
         self.connection.commit()

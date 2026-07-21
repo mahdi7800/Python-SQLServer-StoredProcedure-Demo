@@ -124,3 +124,31 @@ class Validation :
 
 
         return True
+    def validate_insert_customer(self ,customer_id , company_name , contact_name=None ,contact_title=None,address=None,city=None,region=None,postal_code=None ,country=None,phone=None,fax=None ):
+        if company_name.strip() == "":
+            print("Company Name is required")
+            return False
+        if customer_id.strip() == "":
+            print("Customer ID is required")
+            return False
+        if len(customer_id) != 5:
+            print("Customer ID must be 5 characters.")
+            return False
+        return True
+
+    def validate_update_customer(self ,customer_id , company_name , contact_name=None ,contact_title=None,address=None,city=None,region=None,postal_code=None ,country=None,phone=None,fax=None ):
+        if customer_id.strip() == "":
+            print("Customer ID is required")
+            return False
+        if len(customer_id) != 5 :
+            print(f'Customer ID must be 5 characters.')
+            return False
+        return True
+    def validate_delete_customer(self ,customer_id):
+        if customer_id.strip() == "":
+            print("Customer ID is required")
+            return False
+        if len(customer_id) != 5 :
+            print(f'Customer ID must be 5 characters.')
+            return False
+        return True

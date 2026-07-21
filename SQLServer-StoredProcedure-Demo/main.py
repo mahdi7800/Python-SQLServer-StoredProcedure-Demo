@@ -1,7 +1,7 @@
+import sys
 from datetime import datetime
 import db.database as db
 from validation import *
-
 
 Validation = Validation()
 database = db.Database()
@@ -65,6 +65,7 @@ def report_invoice():
                 database.close()
         else:
             print("Invalid input. Please try again.")
+
 def ProcessEmployeeOperation() :
     select_operation = input("\n Select Operation: \n 1: Insert \n 2: Update \n 3: Delete \n")
 
@@ -148,12 +149,102 @@ def ProcessEmployeeOperation() :
     finally:
         database.close()
         database.close()
-        
+
+def ProcessCustomersOperation() :
+    select_operation = input("\n Select Operation: \n 1: Insert \n 2: Update \n 3: Delete \n")
+
+    sql="""
+    DECLARE @Result nvarchar(200);
+    EXEC usp_InsertAndDeleteAndUpdateCustomer @Type = ?, 
+										@CustomerID = ? ,
+										@CompanyName = ? , 
+										@ContactName = ? ,
+										@ContactTitle = ? ,
+										@Address = ? ,  
+										@City  = ? , 
+										@Region = ? , 
+										@PostalCode =  ? , 
+										@Country =? , 
+										@Phone =? , 
+										@Fax = ? , 
+										@Result = @Result OUTPUT
+                                        SELECT @Result
+    """
+    try :
+        if select_operation == "1" or select_operation.lower() == "i" or select_operation.lower() == "insert":
+            operation_type = "i"
+            CustomerID = input("\n Enter Customer ID: ")
+            CompanyName = input("\n Enter Company Name: ")
+            ContactName = input("\n Enter Contact Name: (Press Enter to skip):")  or None
+            ContactTitle = input("\n Enter Contact Title: (Press Enter to skip):") or None
+            Address = input("\n Enter Address: (Press Enter to skip):") or None
+            City = input("\n Enter City: (Press Enter to skip):") or None
+            Region = input("\n Enter Region: (Press Enter to skip):") or None
+            PostalCode = input("\n Enter Postal Code: (Press Enter to skip):") or None
+            Country = input("\n Enter Country: (Press Enter to skip):") or None
+            Phone = input("\n Enter Phone: (Press Enter to skip):") or None
+            Fax = input("\n Enter Fax: (Press Enter to skip):") or None
+            if Validation.validate_insert_customer(CustomerID,CompanyName) :
+                database.execute_stored_procedure(sql,
+                                                  operation_type,CustomerID,CompanyName,ContactName,ContactTitle,Address,City,Region,PostalCode,Country,Phone,Fax
+                )
+                result = database.fach_one()[0]
+                print(result)
+                database.commit()
+        elif select_operation == "2" or select_operation.lower() == "u" or select_operation.lower() == "update":
+            operation_type = "u"
+            CustomerID = input("\n Enter Customer ID: ")
+            CompanyName = input("\n Enter Company Name: ")or None
+            ContactName = input("\n Enter Contact Name: (Press Enter to skip):") or None
+            ContactTitle = input("\n Enter Contact Title: (Press Enter to skip):") or None
+            Address = input("\n Enter Address: (Press Enter to skip):") or None
+            City = input("\n Enter City: (Press Enter to skip):") or None
+            Region = input("\n Enter Region: (Press Enter to skip):") or None
+            PostalCode = input("\n Enter Postal Code: (Press Enter to skip):") or None
+            Country = input("\n Enter Country: (Press Enter to skip):") or None
+            Phone = input("\n Enter Phone: (Press Enter to skip):") or None
+            Fax = input("\n Enter Fax: (Press Enter to skip):") or None
+            if Validation.validate_update_customer(CustomerID) :
+               database.execute_stored_procedure(sql,operation_type,CustomerID,CompanyName,ContactName,ContactTitle,Address,City,Region,PostalCode,Country,Phone,Fax)
+               result = database.fach_one()[0]
+               print(result)
+               database.commit()
+        elif select_operation == "3" or select_operation.lower() == "d" or select_operation.lower() == "delete":
+            operation_type = "d"
+            CustomerID = input("\n Enter Customer ID: ")
+            CompanyName = None
+            ContactName = None
+            ContactTitle =  None
+            Address =  None
+            City =  None
+            Region =  None
+            PostalCode =  None
+            Country =  None
+            Phone =  None
+            Fax =  None
+            if Validation.validate_delete_customer(CustomerID) :
+                database.execute_stored_procedure(sql,
+                                                  operation_type, CustomerID, CompanyName, ContactName, ContactTitle,
+                                                  Address, City, Region, PostalCode, Country, Phone, Fax
+                                                  )
+                result = database.fach_one()[0]
+                print(result)
+                database.commit()
+            else:
+                print("Customer ID is invalid")
+        else:
+            print("invalid input")
+    except Exception as error:
+        print(f"Database Error: {error}")
+        database.rollback()
+    finally:
+        database.rollback()
+        database.close()
+
+
 def main():
-    print("1. Payment")
-    print("2. Invoice")
-    print("3. Report Invoice")
-    print("4. Exit")
+    print(" 1. Payment \n 2. Invoice \n 3. Report Invoice \n 4. ProcessCustomersOperation \n 5. Exit")
+
 
     choice = input("Select: ")
 
@@ -162,13 +253,15 @@ def main():
 
     elif choice == "2":
         report_invoice()
-
     elif choice == "3":
         ProcessEmployeeOperation()
     elif choice == "4":
+        ProcessCustomersOperation()
+    elif choice == "5":
         sys.exit()
     else:
         print("Invalid option")
 
 main()
+
 

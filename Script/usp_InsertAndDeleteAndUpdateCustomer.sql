@@ -1,15 +1,10 @@
-USE Northwind;
-GO 
-
-
 CREATE OR ALTER PROC usp_InsertAndDeleteAndUpdateCustomer @Type nchar(1), @CustomerID nchar(5) ,@CompanyName nvarchar(40) = NULL , @ContactName nvarchar(30)  = NULL ,@ContactTitle nvarchar(30) = NULL ,@Address nvarchar(60)  = NULL,  @City nvarchar(15) = NULL , @Region nvarchar(15) = NULL , @PostalCode nvarchar(10) = NULL , @Country nvarchar(15)= NULL , @Phone nvarchar(24)= NULL , @Fax nvarchar(24)= NULL , @Result nvarchar(200) OUTPUT
 AS 
 BEGIN 
 	SET NOCOUNT ON;
 	SET XACT_ABORT ON;
-	BEGIN TRAN
-	   BEGIN TRY 
-
+    BEGIN TRY
+	  BEGIN TRAN
 	     SET @Type = UPPER(@Type);
 
 	     --Insert

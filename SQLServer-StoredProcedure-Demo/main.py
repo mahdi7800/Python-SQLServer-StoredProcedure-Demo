@@ -148,7 +148,6 @@ def ProcessEmployeeOperation() :
         database.rollback()
     finally:
         database.close()
-        database.close()
 
 def ProcessCustomersOperation() :
     select_operation = input("\n Select Operation: \n 1: Insert \n 2: Update \n 3: Delete \n")
@@ -238,7 +237,6 @@ def ProcessCustomersOperation() :
         print(f"Database Error: {error}")
         database.rollback()
     finally:
-        database.rollback()
         database.close()
 
 
